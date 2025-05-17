@@ -10,30 +10,40 @@ interface ChartSelectorProps {
 
 export const ChartSelector: React.FC<ChartSelectorProps> = ({ plotType, setPlotType }) => {
   return (
-    <div className="inline-flex items-center bg-gray-100 rounded-lg p-1 shadow-inner">
+    <div className="inline-flex items-center bg-gray-100 rounded-xl p-1.5 shadow-inner">
       <button
         onClick={() => setPlotType('line')}
         className={cn(
-          "inline-flex items-center px-4 py-2 text-sm font-medium rounded-md transition-all duration-200",
+          "relative group inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300",
           plotType === 'line' 
-            ? "bg-white text-blue-600 shadow-sm ring-1 ring-gray-200/50" 
+            ? "bg-white text-blue-600 shadow-lg ring-1 ring-gray-200/50" 
             : "text-gray-600 hover:text-gray-900"
         )}
       >
-        <LineChart className="h-4 w-4 mr-2" />
-        Line
+        {plotType === 'line' && (
+          <div className="absolute inset-0 bg-blue-100/50 rounded-lg blur-sm"></div>
+        )}
+        <div className="relative flex items-center">
+          <LineChart className="h-4 w-4 mr-2" />
+          Line
+        </div>
       </button>
       <button
         onClick={() => setPlotType('bar')}
         className={cn(
-          "inline-flex items-center px-4 py-2 text-sm font-medium rounded-md transition-all duration-200",
+          "relative group inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300",
           plotType === 'bar' 
-            ? "bg-white text-blue-600 shadow-sm ring-1 ring-gray-200/50" 
+            ? "bg-white text-blue-600 shadow-lg ring-1 ring-gray-200/50" 
             : "text-gray-600 hover:text-gray-900"
         )}
       >
-        <BarChart2 className="h-4 w-4 mr-2" />
-        Bar
+        {plotType === 'bar' && (
+          <div className="absolute inset-0 bg-blue-100/50 rounded-lg blur-sm"></div>
+        )}
+        <div className="relative flex items-center">
+          <BarChart2 className="h-4 w-4 mr-2" />
+          Bar
+        </div>
       </button>
     </div>
   );

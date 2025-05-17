@@ -34,69 +34,79 @@ export const DataTable: React.FC<DataTableProps> = ({ data }) => {
 
   return (
     <div className="space-y-4">
-      <div className="overflow-x-auto rounded-lg border border-gray-200">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              {columns.map((column) => (
-                <th
-                  key={column}
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  {column}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {currentData.map((row, rowIndex) => (
-              <tr key={rowIndex} className={rowIndex % 2 === 0 ? '' : 'bg-gray-50'}>
+      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
                 {columns.map((column) => (
-                  <td key={`${rowIndex}-${column}`} className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {row[column] === null || row[column] === undefined ? '-' : String(row[column])}
-                  </td>
+                  <th
+                    key={column}
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    {column}
+                  </th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {currentData.map((row, rowIndex) => (
+                <tr 
+                  key={rowIndex} 
+                  className={`transition-colors duration-150 hover:bg-gray-50 ${
+                    rowIndex % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'
+                  }`}
+                >
+                  {columns.map((column) => (
+                    <td key={`${rowIndex}-${column}`} className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {row[column] === null || row[column] === undefined ? '-' : String(row[column])}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
       
       {data.length > 10 && (
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+        <div className="flex items-center justify-between bg-white p-4 rounded-xl border border-gray-200">
+          <div className="flex items-center space-x-4">
             <span className="text-sm text-gray-700">
               Showing {startIndex + 1} to {endIndex} of {data.length} entries
             </span>
-            <div>
+            <div className="relative">
               <select
                 value={rowsPerPage}
                 onChange={handleRowsPerPageChange}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-1 px-2 bg-white border"
+                className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm py-2 px-3 bg-white border appearance-none pr-8"
               >
-                <option value={10}>10</option>
-                <option value={25}>25</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
+                <option value={10}>10 rows</option>
+                <option value={25}>25 rows</option>
+                <option value={50}>50 rows</option>
+                <option value={100}>100 rows</option>
               </select>
+              <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                <ChevronDown className="h-4 w-4 text-gray-400" />
+              </div>
             </div>
           </div>
           <div className="flex items-center space-x-2">
             <button
               onClick={handlePrevPage}
               disabled={page === 0}
-              className="inline-flex items-center px-2 py-1 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
-            <span className="text-sm text-gray-700">
-              {page + 1} of {totalPages}
+            <span className="text-sm text-gray-700 bg-gray-100 px-3 py-2 rounded-lg">
+              Page {page + 1} of {totalPages}
             </span>
             <button
               onClick={handleNextPage}
               disabled={page === totalPages - 1}
-              className="inline-flex items-center px-2 py-1 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
